@@ -11,6 +11,7 @@ import re
 import os
 import platform
 
+
 ix,iy=460,258
 decalX= [[10,300],[300,550],[600,800]]
  ## Calcule l'angle entre 3 points
@@ -229,8 +230,9 @@ def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
         #    #tabfich[i]= fichier
 
         ## préparation des images correspondantes
+        cv2.imwrite("calcul_profil//"+regexp.group(2)+"//frame.jpg",frame)
         for i in range(np.shape(Ws)[0]-2):
-            interm = frame
+            interm = cv2.imread("calcul_profil//"+regexp.group(2)+"//frame.jpg")
             x,y,w,h=Ws[i]
             x1,y1,w1,h1=Ws[i+1]
             x2,y2,w2,h2=Ws[i+2]
@@ -242,7 +244,7 @@ def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
             cv2.imwrite("calcul_profil//"+regexp.group(2)+"//"+str(i)+".jpg",interm)
 
         
-        
+        os.remove("calcul_profil//"+regexp.group(2)+"//frame.jpg")
         
         nbAngles = 0
         track_w=np.zeros((np.shape(Ws)[0],4))
