@@ -246,7 +246,7 @@ def detourageVideo(path, template, sampleRate=10, affichage=False):
 # appel la fonction pour traiter min max
 def traitementSilhouette(path,x1,y1,x2,y2,x3,y3,x4,y4,echelle,sampleRate=10):
 
-    print "[detourage]CALLING traitement silhouette"
+    print("[detourage]CALLING traitement silhouette")
 
     cap = cv2.VideoCapture(path)
     ret, frame = cap.read()
@@ -255,11 +255,11 @@ def traitementSilhouette(path,x1,y1,x2,y2,x3,y3,x4,y4,echelle,sampleRate=10):
     
     detourageVideo(path, template, sampleRate)
     
-    print "[detourage]END of traitement silhouette, CALLING calcul surface"
+    print ("[detourage]END of traitement silhouette, CALLING calcul surface")
     
     # call fonction de traitement surface avec 2 points, echelle, et path
     path2 = 'silhouette.avi'
     surface.calcul_surface(path2,x3,y3,x4,y4,echelle)
     
-    print "[detourage]END of calcul surface"
+    print ("[detourage]END of calcul surface")
     

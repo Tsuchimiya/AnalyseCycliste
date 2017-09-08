@@ -49,7 +49,7 @@ def fusion(rect):
     rectF=np.zeros((50,4))
     nbRect=0
     ecart=0
-    print np.shape(rect)[0]
+    print (np.shape(rect)[0])
     for i in range(np.shape(rect)[0]):
         j=0
         ecart=0
@@ -95,8 +95,8 @@ def find_tracking_window(frame,couleur,save,path):
     #cv2.imshow('hsv',output_image1)
    #[111,21,176]
   # [174 158 255]
-    print "Determination de fenetres de tracking candidates"
-    print couleur
+    print( "Determination de fenetres de tracking candidates")
+    print (str(couleur))
     test=find_color_BGR(output_image,couleur)
     
    # cv2.circle(output_image,(ix,iy),2,(255,0,0),-1)
@@ -130,7 +130,7 @@ def find_tracking_window(frame,couleur,save,path):
             cv2.rectangle(frame, (int(x),int(y)), (int(x+w),int(y+h)), 255,2)
     #print rect
     rectFinal=fusion(rect)
-    print rectFinal
+    print(str(rectFinal))
     for i in range(np.shape(rectFinal)[0]):
         x,y,w,h=rectFinal[i]
         cv2.rectangle(frame, (int(x),int(y)), (int(x+w),int(y+h)), (0,255,0),2)
@@ -153,7 +153,7 @@ def find_tracking_window(frame,couleur,save,path):
     if not os.path.isdir('calcul_profil//'+results.group(2)):
         os.mkdir('calcul_profil//'+results.group(2))
     else:
-        print "Attention, suppression d'un dossier existant car même titre de video"
+        print ("Attention, suppression d'un dossier existant car même titre de video")
     cv2.imwrite('calcul_profil//'+results.group(2)+'//fenetres.jpg',save)
     #cv2.imshow('contours',frame)
   
@@ -190,7 +190,7 @@ def recalibration(frame,couleur,save,path):
 def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
 
     if (np.shape(Ws)[0]<3):
-        print "Impossible de calculer des angles, nombre de points de tracking inférieurs à 3"
+        print ("Impossible de calculer des angles, nombre de points de tracking inférieurs à 3")
         return None
     else : 
         cap = cv2.VideoCapture(path)
@@ -201,7 +201,7 @@ def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
         angles = np.zeros((np.shape(Ws)[0]-2) )
         
         init = np.array(range(np.shape(Ws)[0]-2))
-        print init
+        print(init)
         fint=open("test1.csv", "wb")
         fich = csv.writer(fint)
         tabfich= [fich]*(np.shape(Ws)[0]-2)
@@ -217,7 +217,7 @@ def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
         for i in range(np.shape(tabfich)[0]):
            
             fAngles.write("Angles liés à "+str(i)+".jpg\t")
-            f=open("calcul_profil//"+regexp.group(2)+"//"+str(i)+".csv", "wb")
+            f=open("calcul_profil//"+regexp.group(2)+"//"+str(i)+".csv", "w")
             f.write("Angles liés à "+str(i)+".jpg\n")
             tabfich[i]=f
         
@@ -268,7 +268,7 @@ def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
       
         term_crit=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT,10,1)
         trackingPoints=np.zeros((np.shape(Ws)[0],2))
-        print "Calcul en cours ... "
+        print("Calcul en cours ... ")
         
         recal= 0
         resu= 1
@@ -280,7 +280,7 @@ def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
             ret , original =cap.read()
             
             if nb_recal>5 :
-                print "erreur trop de pertes calibration"
+                print ("erreur trop de pertes calibration")
                 return -1
             
              #tentative d'amélioration du rendu en floutant
@@ -312,7 +312,7 @@ def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
                         deltX = x - xprec
                         # si la fenetre a sauté d'un coup, on demande la recalibration
                         if (xprec>0 and yprec >0 and (abs(deltY)>50 or abs(deltX)>50) and nb_recal>0):
-                            print "fenetre a saute"
+                            print ("fenetre a saute")
                             precPositions[i]=0,0
                             recal=1
                         else:
@@ -328,8 +328,8 @@ def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
                         cv2.line(frame, (int(x),int(y)), (int(x1),int(y1)), (0, 0, 255), 2)
                         a= calcul_angle((int(x),int(y)),(int(x1),int(y1)),(int(x2),int(y2)))
                         if a>170 or a<50 or recal==1:
-                            print "recalibration necessaire"
-                            print a
+                            print( "recalibration necessaire")
+                            print (str(a))
                             recal=1
                         else:
                             #print "Angle : "
@@ -354,10 +354,10 @@ def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
                 
 
             else:
-                print "Termine !! "
+                print ("Termine !! ")
                 cv2.destroyAllWindows()
                 fAngles.close()
-                print range(np.shape(tabfich)[0])
+                print (str(range(np.shape(tabfich)[0])))
                 for i in range(np.shape(tabfich)[0]):
                      tabfich[i].close()
                # fichier.write=SOMME(A3:A11)/2
@@ -366,9 +366,9 @@ def mean_shifts(Ws,path,couleur): #pas mal mais dur de tracker genoux ou quoi
                 
                 
                 for i in range(np.shape(tabfich)[0]):
-                    print 'calcul_profil//'+regexp.group(2)+'//'+str(i)+'.csv'
+                    print( 'calcul_profil//'+regexp.group(2)+'//'+str(i)+'.csv')
                     results[i]=calculCsv('calcul_profil//'+regexp.group(2)+'//'+str(i)+'.csv')
-                print results
+                print (str(results))
                 
                 return str(regexp.group(2))
                 break
@@ -391,12 +391,12 @@ def moyenne(x,y,frame):
             Gsom+=g
             Rsom+=r
             total+=1
-    print total
+    print (str(total))
     return Bsom/total,Gsom/total,Rsom/total
 
 ## faire le décalage x et y de façon automatique
 def video(path,x,y):
-    print "start Lecture"
+    print ("start Lecture")
     #'logiciel//Video//MOV_0007.mp4'
     cap = cv2.VideoCapture(path)
     global ix,iy,decalX
@@ -407,10 +407,10 @@ def video(path,x,y):
     couleur = frame[y,x]
     
     
-    print couleur
+    print (str(couleur))
     moyCoul= moyenne(y,x,frame)
     save = frame
-    print "Moyenne : " + str(moyCoul)
+    print ("Moyenne : " + str(moyCoul))
     frame=frame[250:1050,550:1350]
     
     hsv= cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
@@ -462,7 +462,7 @@ def test4points():
         cv2.rectangle(interm, (int(x2),int(y2)), (int(x2+w2),int(y2+h2)), (255,255,0),2)
         cv2.imwrite("calcul_profil//"+str(i)+".jpg",interm)
 def calculCsv(path):
-    fichier = open(path, "rb")
+    fichier = open(path, "r")
     reader = csv.reader(fichier)
     nbAngles = 0
     minAngle = 360

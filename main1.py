@@ -1,9 +1,9 @@
 # -*- coding: cp1252 -*-
 #import des bibliothèques nécessaires
-import FileDialog # pour exe,Matplotlib
 
-from Tkinter import *
 
+from tkinter import *
+#import filedialog # pour exe,Matplotlib
 import numpy as np
 
 from functools import partial
@@ -13,8 +13,9 @@ import cv2
 import detourage
 import surface
 import Profil
-import tkFileDialog
+from tkinter import filedialog as tkFileDialog
 import graph
+
 
 
 ##############DE FACE##################
@@ -163,7 +164,7 @@ def analyse_de_profil(x,y,label,path): ###################REMPLIR###############
     if save==None: ## a changer fait de la merde
         label.config(text="Erreur dans l'analyse: nombre de points de tracking insuffisants\n Conseil: Changez d'endroit lors du clic sur la couleur à tracker")
     else:
-        label.config(text="Analyse terminee ! \n Résultat stocké dans "+save)
+        label.config(text="Analyse terminee ! \n Résultat stocké dans "+str(save))
         image = Image.open('calcul_profil//'+save+'//fenetres.jpg')
         photo = ImageTk.PhotoImage(image) 
         video = Label(image=photo)
